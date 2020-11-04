@@ -1,0 +1,60 @@
+<html>
+<head><title>repro ky</title></head>
+<body>
+<script src="/ky.umd.js"></script>
+<script>
+(async() => {
+if (typeof ky === 'undefined' || location.host !== 'localhost:3000') {
+  console.error('start dev server and open this via localhost');
+  document.write(`<ol>
+  <li>start dev server: npm start</li>
+  <li>open this file on browser: <a href="http://localhost:3000">http://localhost:3000</a></li>
+  <li>see console in devTools</li>
+  </ol>`);
+  return;
+} else {
+  document.write('see console in devTools');
+}
+const clientSearchParams = ky.create({
+  prefixUrl: 'http://localhost:3000',
+  searchParams: { a: 'a' },
+});
+
+const clientJSON = ky.create({
+  prefixUrl: 'http://localhost:3000',
+  json: { x: 'x' },
+});
+
+const result1 = await clientSearchParams.get('api').json();
+console.log('result1', result1);
+/**
+  { method: 'GET', query: { a: 'a' }, body: {} }
+*/
+
+const result2 = await clientSearchParams.get('api', { searchParams: { b: 'b' } }).json();
+console.log('result2', result2);
+/**
+  {
+    method: 'GET',
+    query: { a: 'a', headers: '[object Object]', b: 'b' },
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    body: {}
+  }
+*/
+
+const result3 = await clientJSON.post('api').json();
+console.log('result3', result3);
+/**
+ { method: 'POST', query: {}, body: { x: 'x' } }
+*/
+
+const result4 = await clientJSON.post('api', { json: { y: 'y' } }).json();
+console.log('result4', result4);
+/**
+ { method: 'POST', query: {}, body: { x: 'x', headers: {}, y: 'y' } }
+                                              ^^^^^^^^^^^
+*/
+})()
+</script>
+</body>
+</html>

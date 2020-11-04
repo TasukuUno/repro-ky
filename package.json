@@ -1,0 +1,15 @@
+{
+  "name": "repro-ky",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server/index.js",
+    "node": "node node.js"
+  },
+  "author": "TasukuUno",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ky": "^0.24.0",
+    "ky-universal": "^0.8.2"
+  }
+}
