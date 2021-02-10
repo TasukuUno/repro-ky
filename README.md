@@ -1,5 +1,5 @@
 # repro-ky
-（ issue link: coming soon :smile: ）
+https://github.com/sindresorhus/ky/issues/324
 
 ## What's happened?
 
